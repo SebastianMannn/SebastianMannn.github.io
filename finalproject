@@ -1,0 +1,103 @@
+// server.js
+
+const express = require('express');
+const app = express();
+const userRoutes = require('./routes/userRoutes');
+const videoRoutes = require('./routes/videoRoutes');
+
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.use('/user', userRoutes);
+app.use('/video', videoRoutes);
+
+// Static files
+app.use(express.static('resources'));
+
+// Template engine setup
+app.set('views', './views');
+app.set('view engine', 'pug');
+
+// Server start
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+
+
+// routes/userRoutes.js
+
+const express = require('express');
+const router = express.Router();
+const userController = require('../controllers/userController');
+
+router.get('/register', userController.getRegisterForm);
+router.post('/register', userController.registerUser);
+router.get('/login', userController.getLoginForm);
+router.post('/login', userController.loginUser);
+
+module.exports = router;
+
+
+
+
+
+// routes/videoRoutes.js
+
+const express = require('express');
+const router = express.Router();
+const videoController = require('../controllers/videoController');
+
+router.get('/add', videoController.getAddVideoForm);
+router.post('/add', videoController.addVideo);
+router.get('/dashboard', videoController.showDashboard);
+
+module.exports = router;
+
+
+
+
+
+// controllers/userController.js
+
+const userService = require('../services/userService');
+
+exports.getRegisterForm = (req, res) => {
+  res.render('register');
+};
+
+exports.registerUser = async (req, res) => {
+  // Handle user registration logic
+};
+
+exports.getLoginForm = (req, res) => {
+  res.render('login');
+};
+
+exports.loginUser = async (req, res) => {
+  // Handle user login logic
+};
+
+
+
+
+
+
+// controllers/videoController.js
+
+const videoService = require('../services/videoService');
+
+exports.getAddVideoForm = (req, res) => {
+  res.render('addVideo');
+};
+
+exports.addVideo = async (req, res) => {
+  // Handle adding a new video logic
+};
+
+exports.showDashboard = async (req, res) => {
+  // Handle showing video dashboard logic
+};
+
